@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Bit Launcher — магазин и библиотека студии</title>
+<meta name="description" content="One Bit Launcher: покупка Hunter Ascent за 99 ₽, автоматическая выдача ключа, проверка лицензии и запуск игры в один клик.">
+<style>
+  :root{
+    --bg:#0d0d10; --panel:#17171c; --card:#202027; --card-hi:#2c2c35;
+    --line:#2e2e38; --txt:#f0f0f5; --txt2:#9a9aa6; --acc:#0d8bff; --acc2:#5aa0ff;
+    --ok:#5adc8c; --err:#e16868; --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{width:min(1180px,92vw);margin:0 auto}
+  .muted{color:var(--txt2)}
+  .accent{color:var(--acc2)}
+
+  header.top{
+    position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
+    background:rgba(13,13,16,.82); border-bottom:1px solid var(--line);
+  }
+  .top-in{display:flex;align-items:center;gap:24px;height:68px;flex-wrap:nowrap}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}
+  .logo{
+    width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0d8bff,#5a3cdb);font-size:14px;font-weight:800;
+  }
+  .brand small{display:block;font-size:11px;font-weight:500;color:var(--txt2);letter-spacing:.14em}
+  nav.links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--txt2)}
+  nav.links a:hover{color:var(--txt)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 20px;border-radius:12px;font-weight:600;font-size:14px;
+    background:var(--acc);color:#fff;border:1px solid transparent;cursor:pointer;
+    transition:.18s ease;
+  }
+  .btn:hover{background:var(--acc2);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;border-color:var(--line);color:var(--txt)}
+  .btn.ghost:hover{background:var(--card);border-color:#454552}
+
+  .hero{position:relative;margin-top:26px;border-radius:22px;overflow:hidden;min-height:420px;
+    display:flex;align-items:flex-end;border:1px solid var(--line)}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero .scrim{position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(8,10,10,.94) 0%,rgba(8,10,10,.72) 46%,rgba(8,10,10,.25) 100%),
+               linear-gradient(0deg,rgba(8,10,10,.8),transparent 55%)}
+  .hero-in{position:relative;padding:34px;max-width:640px}
+  .tag{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--acc);
+    font-size:11px;letter-spacing:.12em;font-weight:700;text-transform:uppercase}
+  h1{font-size:clamp(30px,4vw,46px);line-height:1.06;margin:16px 0 10px;letter-spacing:-.02em}
+  .hero p{margin:0 0 22px;color:#d6d6de;font-size:15px;max-width:520px}
+  .price{font-size:22px;font-weight:700;margin-right:14px}
+  .hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+  section{padding:56px 0 0}
+  h2{font-size:26px;margin:0 0 6px;letter-spacing:-.01em}
+  .lead{color:var(--txt2);margin:0 0 26px;font-size:15px}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .step b{display:block;font-size:12px;letter-spacing:.12em;color:var(--acc2);margin-bottom:10px}
+  .step h3{margin:0 0 8px;font-size:17px}
+  .step p{margin:0;color:var(--txt2);font-size:14px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    transition:.2s ease}
+  .card:hover{transform:translateY(-3px);border-color:#3b3b48;background:var(--card-hi)}
+  .card .shot{height:150px;background:#000}
+  .card .shot img{width:100%;height:100%;object-fit:cover;opacity:.92}
+  .card .body{padding:16px 18px 20px}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p{margin:0;color:var(--txt2);font-size:13px}
+  .pill{display:inline-block;margin-top:12px;padding:5px 12px;border-radius:999px;
+    background:#2b2b34;color:var(--txt2);font-size:12px}
+
+  .req{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .req div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .req b{display:block;font-size:12px;color:var(--txt2);letter-spacing:.08em;margin-bottom:6px}
+
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0;margin-bottom:10px}
+  details summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";color:var(--txt2);font-weight:700}
+  details[open] summary::after{content:"–"}
+  details .ans{padding:0 20px 18px;color:var(--txt2);font-size:14px}
+
+  .codes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .code{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:13px}
+  .code b{color:var(--err);display:block;font-size:13px;margin-bottom:4px}
+  .code span{color:var(--txt2);font-size:12px}
+
+  .support{display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap;
+    background:linear-gradient(120deg,#141a2a,#161021);border:1px solid var(--line);
+    border-radius:18px;padding:26px}
+  .support h2{margin:0 0 6px}
+
+  footer{margin:64px 0 0;border-top:1px solid var(--line);padding:26px 0 40px;color:var(--txt2);font-size:13px}
+  .foot-in{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+  .notice{margin-top:14px;font-size:12px;color:#7e7e8c}
+
+  .preorder{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
+  .preorder-main{background:linear-gradient(135deg,#12233b,#150f22);border:1px solid #2b3d55;border-radius:18px;padding:26px}
+  .preorder-side{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+  .preorder-price{display:flex;align-items:baseline;gap:14px;margin:16px 0 18px}
+  .preorder-price .old{color:var(--txt2);text-decoration:line-through;font-size:18px}
+  .preorder-price .new{font-size:38px;font-weight:800;letter-spacing:-.02em}
+  .check-list{list-style:none;margin:0;padding:0;font-size:14px;color:#c3c8d2}
+  .check-list li{padding:6px 0 6px 22px;position:relative}
+  .check-list li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+  .preorder-side h3{margin:0 0 12px;font-size:16px}
+  .mini-steps{margin:0 0 16px;padding-left:20px;color:var(--txt2);font-size:13.5px}
+  .mini-steps li{margin-bottom:8px}
+  .preorder-meta{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px;font-size:13px}
+  .preorder-meta b{display:block;font-size:11px;letter-spacing:.1em;color:var(--txt2);margin-bottom:2px}
+  @media (max-width:860px){.preorder{grid-template-columns:1fr}}
+
+  @media (max-width:860px){
+    nav.links{display:none}
+    .steps,.cards,.req,.codes{grid-template-columns:1fr}
+    .hero-in{padding:24px}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top">
+      <span class="logo">OB</span>
+      <span>ONE BIT<small>LAUNCHER</small></span>
+    </a>
+    <nav class="links">
+      <a href="#preorder">Предзаказ</a>
+      <a href="#how">Как это работает</a>
+      <a href="#library">Библиотека</a>
+      <a href="#faq">Поддержка</a>
+      <a href="#codes">Коды ошибок</a>
+      <a href="support.html">Написать нам</a>
+    </nav>
+    <a class="btn" href="download/OneBitLauncher.exe" download>Скачать лаунчер</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero" style="padding:0">
+      <img class="bg" src="assets/hero.jpg" alt="Охотник в зимнем лесу — ключевой арт Hunter Ascent">
+      <div class="scrim"></div>
+      <div class="hero-in">
+        <span class="tag">новинка студии</span>
+        <h1>HUNTER ASCENT</h1>
+        <p>Выживание в северном лесу: охота, холод, болезни и легендарная пещера. Один охотник против зимы.</p>
+        <div class="hero-btns">
+          <span class="price"><s style="color:#9a9aa6;font-weight:600;font-size:17px;margin-right:8px">125 ₽</s>99 ₽</span>
+          <button class="btn" type="button" data-buy>Купить в лаунчере</button>
+          <button class="btn ghost" type="button" data-preorder>Предзаказ — 99 ₽</button>
+        </div>
+        <p class="notice" id="buyNote">Оплата пока не подключена. Ключ выдаётся в лаунчере после покупки и хранится локально.</p>
+      </div>
+    </section>
+
+    <section id="preorder">
+      <h2>Предзаказ Hunter Ascent</h2>
+      <p class="lead">Предзаказ 99 ₽ — обычная цена 125 ₽. Ключ выдаётся в день выхода игры и приходит на вашу почту.</p>
+
+      <div class="preorder">
+        <div class="preorder-main">
+          <span class="tag">предзаказ</span>
+          <div class="preorder-price">
+            <span class="old">125 ₽</span>
+            <span class="new">99 ₽</span>
+          </div>
+          <ul class="check-list">
+            <li>Ключ лицензии на почту в день релиза</li>
+            <li>Доступ к игре сразу после выхода, без очереди</li>
+            <li>Бонус в игре: «Зимняя куртка» для охотника</li>
+            <li>Промокод <code>HUNTERISOAL01</code> вместе с ключом</li>
+            <li>Письмо о переносе даты, если релиз сдвинется</li>
+          </ul>
+          <div class="hero-btns" style="margin-top:20px">
+            <button class="btn" type="button" data-preorder>Оформить предзаказ</button>
+            <a class="btn ghost" href="support.html">Задать вопрос</a>
+          </div>
+          <p class="notice" id="preorderNote">Номер предзаказа присваиваем вручную. Чтобы получить предзаказ и номер, напишите нам на почту <a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a> — в ответ пришлём номер вида <code>HA-2026-0001</code> и условия оплаты.</p>
+        </div>
+
+        <div class="preorder-side">
+          <h3>Как получить номер предзаказа</h3>
+          <ol class="mini-steps">
+            <li>Напишите на почту <a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a>
+); — кнопка «Оформить предзаказ» откроет письмо с готовым текстом.</li>
+            <li>Укажите логин Windows и почту, на которую присылать ответ и ключ.</li>
+            <li>Мы ответим номером предзаказа — например <code>HA-2026-0001</code> — и пришлём условия оплаты.</li>
+            <li>Номер сохраните: по нему отвечаем про статус, перенос даты и возврат.</li>
+            <li>В день релиза на указанную почту придёт ключ активации.</li>
+          </ol>
+          <div class="preorder-meta">
+            <div><b>ПЛАТФОРМА</b>Windows 10/11</div>
+            <div><b>ВЫХОД</b>2026 год, дата уточняется</div>
+            <div><b>ЦЕНА ПОСЛЕ РЕЛИЗА</b><s style="color:#7e7e8c">125 ₽</s> 99 ₽</div>
+          </div>
+          <p class="notice">Предзаказ можно отменить в любой момент до релиза — напишите на <a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>Купить и играть — три шага</h2>
+      <p class="lead">Один Bit Launcher сам выдаёт ключ, проверяет лицензию и запускает игру.</p>
+      <div class="steps">
+        <div class="step">
+          <b>ШАГ 1</b>
+          <h3>Покупка</h3>
+          <p>Нажимаешь «Купить» в лаунчере. Ключ на 150–250 символов выдаётся автоматически и привязывается к логину Windows.</p>
+        </div>
+        <div class="step">
+          <b>ШАГ 2</b>
+          <h3>Проверка кода</h3>
+          <p>При запуске открывается окно проверки: «проверка кода» → «проверка лицензии» → «подготовка мира» → «запуск игры».</p>
+        </div>
+        <div class="step">
+          <b>ШАГ 3</b>
+          <h3>Замена ключа</h3>
+          <p>После успешной проверки ключ меняется на новый рабочий. Если ключ не подходит — ошибка 200 и запуск блокируется.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="library">
+      <h2>Библиотека и будущие проекты</h2>
+      <p class="lead">Hunter Ascent уже установлена. Остальное — в разработке.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="shot"><img src="assets/cover1.jpg" alt="Обложка нового проекта студии"></div>
+          <div class="body">
+            <h3>Новый проект студии</h3>
+            <p>Мистический лес, светящиеся грибы, тишина.</p>
+            <span class="pill">в разработке</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="shot"><img src="assets/cover2.jpg" alt="Обложка второй игры студии"></div>
+          <div class="body">
+            <h3>Вторая игра</h3>
+            <p>Руины в пустыне, песчаная буря, закат.</p>
+            <span class="pill">концепт</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="shot"><img src="assets/cover3.jpg" alt="Обложка третьей игры студии"></div>
+          <div class="body">
+            <h3>Третья игра</h3>
+            <p>Остров, маяк и штормовое небо.</p>
+            <span class="pill">идея</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="req">
+      <h2>Системные требования</h2>
+      <p class="lead">Лаунчер проверяет окружение перед запуском и сообщает код ошибки, если чего-то не хватает.</p>
+      <div class="req">
+        <div><b>ОС</b>Windows 10 или 11, 64-bit</div>
+        <div><b>ПАМЯТЬ</b>8 ГБ ОЗУ минимум</div>
+        <div><b>ДИСК</b>5 ГБ свободного места</div>
+        <div><b>ВИДЕО</b>DirectX 11, 2 ГБ видеопамяти</div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>Поддержка</h2>
+      <p class="lead">Частые вопросы по лицензии и запуску.</p>
+
+      <details open>
+        <summary>Ключ привязан к компьютеру или к логину?</summary>
+        <div class="ans">К логину Windows: ключ содержит блок, вычисленный из имени учётной записи. На другом логине он не пройдёт проверку — это ошибка 200.</div>
+      </details>
+      <details>
+        <summary>Почему ключ меняется при каждом запуске?</summary>
+        <div class="ans">Это ротация: старый ключ заменяется новым рабочим с новой подписью. Так ключ из переписки или скриншота не остаётся действующим.</div>
+      </details>
+      <details>
+        <summary>Что значит «ошибка 200»?</summary>
+        <div class="ans">Лицензия не активна: ключ не совпал по логину или подписи. Проверь, что лаунчер запущен под тем же пользователем Windows, и попробуй активировать ключ в профиле.</div>
+      </details>
+      <details>
+        <summary>Как отозвать лицензию?</summary>
+        <div class="ans">Студия кладёт ключ в файл <code>revoked.txt</code> рядом с лаунчером — при запуске появится ошибка 209 «Лицензия отозвана».</div>
+      </details>
+      <details>
+        <summary>Нужен ли интернет?</summary>
+        <div class="ans">Нет. Проверка лицензии офлайн, ключ хранится в файле <code>license.dat</code> рядом с исполняемым файлом лаунчера.</div>
+      </details>
+      <details>
+        <summary>Игра вылетела — что произойдёт?</summary>
+        <div class="ans">Лаунчер перепроверит ключ, покажет панель с кодом завершения и вероятной причиной, запишет событие в <code>crash.log</code> и перезапустит игру через пять секунд.</div>
+      </details>
+    </section>
+
+    <section id="codes">
+      <h2>Коды ошибок</h2>
+      <p class="lead">Лаунчер показывает код и подсказку мелким шрифтом. Ниже — расшифровка основных.</p>
+      <div class="codes">
+        <div class="code"><b>200 — Лицензия не активна</b><span>активируйте ключ в профиле или проверьте статус подписки</span></div>
+        <div class="code"><b>201 — Истёк срок лицензии</b><span>продлите подписку или приобретите новую</span></div>
+        <div class="code"><b>209 — Лицензия отозвана</b><span>обратитесь в поддержку</span></div>
+        <div class="code"><b>400 — Файл игры повреждён</b><span>проверьте целостность файлов</span></div>
+        <div class="code"><b>402 — Не хватает файлов</b><span>восстановите файлы игры</span></div>
+        <div class="code"><b>600 — Мало оперативной памяти</b><span>нужно минимум 8 ГБ</span></div>
+        <div class="code"><b>603 — Мало места на диске</b><span>освободите не менее 5 ГБ</span></div>
+        <div class="code"><b>801 — Конфликт процессов</b><span>игра уже запущена — закройте её</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="support">
+        <div>
+          <h2>Нужна помощь с активацией?</h2>
+          <p class="muted" style="margin:0">Напиши логин Windows и время покупки — сверим ключ и статус лицензии.<br>Почта поддержки: <a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a></p>
+        </div>
+        <a class="btn" href="support.html">Написать нам</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© 2026 One Bit Studio · One Bit Launcher · <a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a></div>
+    <div class="muted">Hunter Ascent — 99 ₽ · версия лаунчера 1.0</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('[data-buy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var note = document.getElementById('buyNote');
+      note.textContent = 'Покупка оформляется в лаунчере: там ключ выдаётся автоматически и сразу привязывается к вашему логину Windows.';
+      note.style.color = '#5adc8c';
+    });
+  });
+
+  document.querySelectorAll('[data-preorder]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var body = [
+        'Здравствуйте!',
+        '',
+        'Хочу оформить предзаказ на Hunter Ascent за 99 ₽ и получить номер предзаказа.',
+        '',
+        'Логин Windows: (укажите, например ksuks)',
+        'Почта для ответа и для ключа: (эта или другая)',
+        'Способ оплаты: (уточним в ответном письме)',
+        '',
+        'Пришлите номер предзаказа и условия оплаты.',
+        '',
+        '— заявка с сайта One Bit Launcher'
+      ].join('\n');
+      var href = 'mailto:GeTGo-de@yandex.ru?subject=' + encodeURIComponent('Предзаказ Hunter Ascent — 99 ₽') +
+                 '&body=' + encodeURIComponent(body);
+      window.location.href = href;
+      var note = document.getElementById('preorderNote');
+      note.textContent = 'Открываем письмо с заявкой на предзаказ. Если почтовая программа не открылась — напишите на GeTGo-de@yandex.ru вручную.';
+      note.style.color = '#5adc8c';
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Написать нам — поддержка One Bit Launcher</title>
+<meta name="description" content="Адрес поддержки One Bit Launcher: GeTGo-de@yandex.ru. Напишите письмо со своей почты и опишите проблему — мы ответим.">
+<style>
+  :root{
+    --bg:#0d0d10; --panel:#17171c; --card:#202027; --line:#2e2e38;
+    --txt:#f0f0f5; --txt2:#9a9aa6; --acc:#0d8bff; --acc2:#5aa0ff; --ok:#5adc8c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);line-height:1.6;
+    font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(820px,92vw);margin:0 auto}
+  .muted{color:var(--txt2)}
+  .accent{color:var(--acc2)}
+  header.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);
+    background:rgba(13,13,16,.86);border-bottom:1px solid var(--line)}
+  .top-in{display:flex;align-items:center;gap:14px;height:64px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--txt2);font-size:14px}
+  .back:hover{color:var(--txt)}
+  .brand{margin-left:auto;display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px;letter-spacing:.06em}
+  .logo{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0d8bff,#5a3cdb);font-size:12px;font-weight:800}
+  main{padding:48px 0 24px}
+  h1{font-size:clamp(26px,3.6vw,38px);margin:0 0 10px;letter-spacing:-.02em}
+  .lead{color:var(--txt2);margin:0 0 26px;font-size:15px}
+
+  .mail-card{background:linear-gradient(135deg,#12233b,#141021);border:1px solid #2b3d55;
+    border-radius:18px;padding:26px;margin-bottom:26px}
+  .mail-label{font-size:12px;letter-spacing:.14em;color:var(--acc2);margin-bottom:10px}
+  .mail-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .mail{font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;word-break:break-all}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:11px;
+    font-weight:600;font-size:14px;background:var(--acc);color:#fff;border:1px solid transparent;cursor:pointer;transition:.18s}
+  .btn:hover{background:var(--acc2)}
+  .btn.ghost{background:transparent;border-color:#3a4b63;color:var(--txt)}
+  .btn.ghost:hover{background:#1b2637}
+  .mail-note{margin:14px 0 0;color:#b9c4d4;font-size:13px}
+
+  h2{font-size:18px;margin:0 0 14px}
+  .steps{counter-reset:s;display:grid;gap:12px}
+  .step{position:relative;padding:16px 18px 16px 60px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:16px;
+    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(13,139,255,.16);color:var(--acc2);font-size:13px;font-weight:700}
+  .step b{display:block;margin-bottom:2px;font-size:15px}
+  .step p{margin:0;color:var(--txt2);font-size:14px}
+  .mailers{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 0}
+  .mailer{font-size:13px;color:var(--txt2);border:1px solid var(--line);border-radius:10px;padding:9px 14px}
+  .mailer:hover{color:var(--txt);border-color:#454552}
+
+  .panel{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .check{list-style:none;margin:0;padding:0;font-size:14px;color:var(--txt2)}
+  .check li{padding:6px 0 6px 22px;position:relative}
+  .check li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+  .warn{margin-top:16px;padding:13px;border-radius:12px;border:1px solid #4a3636;background:#1e1414;
+    color:#e8b4b4;font-size:12.5px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+    background:#1f2a22;border:1px solid #2f5a3f;color:#9fe6b8;padding:12px 18px;border-radius:12px;
+    font-size:13px;transition:.25s}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:22px 0 40px;color:var(--txt2);font-size:13px;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="back" href="index.html">← На главную</a>
+    <span class="brand"><span class="logo">OB</span> ONE BIT LAUNCHER</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Написать нам</h1>
+  <p class="lead">Пишите на почту поддержки с любого своего ящика — ответим туда же.</p>
+
+  <div class="mail-card">
+    <div class="mail-label">ПОЧТА ПОДДЕРЖКИ</div>
+    <div class="mail-row">
+      <span class="mail" id="mail">GeTGo-de@yandex.ru</span>
+      <button class="btn ghost" type="button" id="copyMail">Скопировать адрес</button>
+    </div>
+    <p class="mail-note">Отвечаем обычно в течение одного рабочего дня, на тот адрес, с которого пришло письмо.</p>
+  </div>
+
+  <h2>Как написать</h2>
+  <div class="steps">
+    <div class="step">
+      <b>Откройте свою почту</b>
+      <p>Любой сервис, которым пользуетесь: Яндекс, Gmail, Mail.ru. Регистрация у нас не нужна.</p>
+    </div>
+    <div class="step">
+      <b>Создайте письмо</b>
+      <p>Нажмите «Написать». В поле «Кому» вставьте адрес <span class="accent">GeTGo-de@yandex.ru</span> — можно кнопкой «Скопировать адрес» выше.</p>
+    </div>
+    <div class="step">
+      <b>Опишите проблему</b>
+      <p>В теме письма напишите коротко: «ошибка при запуске» или «не активируется ключ». В тексте — что произошло и что вы делали.</p>
+    </div>
+    <div class="step">
+      <b>Отправьте и ждите ответ</b>
+      <p>Мы прочитаем письмо и ответим на ваш адрес. Если нужен скриншот — приложите его к письму.</p>
+    </div>
+  </div>
+
+  <div class="mailers">
+    <a class="mailer" href="https://mail.yandex.ru" target="_blank" rel="noopener">Открыть Яндекс Почту</a>
+    <a class="mailer" href="https://mail.google.com" target="_blank" rel="noopener">Открыть Gmail</a>
+    <a class="mailer" href="https://e.mail.ru" target="_blank" rel="noopener">Открыть Mail.ru</a>
+  </div>
+
+  <div class="panel">
+    <h2>Что указать в письме</h2>
+    <ul class="check">
+      <li>Логин Windows, под которым запущен лаунчер</li>
+      <li>Код ошибки цифрами из скобок: 200, 201, 209, 400, 603, 801</li>
+      <li>Когда купили игру и когда появилась ошибка</li>
+      <li>Скриншот панели с ошибкой</li>
+      <li>Файл <code>crash.log</code> из папки лаунчера, если игра вылетала</li>
+    </ul>
+    <div class="warn">Не присылайте пароль от Windows, данные карты и коды из СМС. Для проверки лицензии достаточно ключа и логина.</div>
+  </div>
+</main>
+
+<footer class="wrap">
+  <div>© 2026 One Bit Studio · One Bit Launcher</div>
+  <div class="muted"><a class="accent" href="mailto:GeTGo-de@yandex.ru">GeTGo-de@yandex.ru</a></div>
+</footer>
+
+<div class="toast" id="toast">Адрес скопирован</div>
+
+<script>
+  var MAIL = 'GeTGo-de@yandex.ru';
+  document.getElementById('copyMail').addEventListener('click', function () {
+    var toast = document.getElementById('toast');
+    function done() {
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(MAIL).then(done, function () { done(); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = MAIL;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+</script>
+</body>
+</html>
